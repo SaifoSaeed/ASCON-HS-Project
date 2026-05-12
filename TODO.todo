@@ -1,0 +1,8 @@
+Project Reqs:
+    ☐ Compare System-Verilog ASCON implementation with standard.
+        Report discrepencies as well as countermeasures to SCAs.
+    ☐ 
+
+Links:
+    SW: https://github.com/meichlseder/pyascon
+    HW: https://github.com/rprimas/ascon-verilog
