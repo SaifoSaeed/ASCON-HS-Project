@@ -1,14 +1,16 @@
+use std::fs::OpenOptions;
 use std::fs::File;
 use std::io::Write;
-use std::mem;
 use rand::Rng;
+use std::mem;
+use std::env;
 
 fn rotr(x: u64, i: u64) -> u64 {
     let x = (x >> i)^(x<<(64-i));
     return x;
 }
 
-fn print_state(x: &[u64; 5]) {
+/*fn print_state(x: &[u64; 5]) {
     for i in 0..5 {
         println!("{:016x}", x[i])
     }
@@ -36,6 +38,7 @@ fn print_arr(arr: &[u64; 4], ct: *const u64, pt: *const u64, new_pt: *const u64)
     for i in 0..arr.len() { print!("{:016x} ", arr[i]); }
     print!("\n\n");
 }
+*/
 
 fn p(x: &mut [u64; 5], i:u64, rnd: u64) {
     
@@ -123,6 +126,9 @@ fn format_hex(arr: &[u64]) -> String {
 }
 
 fn main() {
+
+    let args: Vec<String> = env::args().collect();
+    
     let mut rng = rand::thread_rng();
 
     let mut x: [u64; 5] = [0; 5];
@@ -144,6 +150,12 @@ fn main() {
     init(&mut x, iv, key, nonce);
     decrypt(&mut x, &ct, &mut dec_pt);
 
+    let mut perm_file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open("perm_vectors.txt")
+        .expect("Failed to create perm_vectors.txt");
+
     let mut file = File::create("vectors.txt").expect("Failed to create vectors.txt");
     
     writeln!(file, "IV: {:016x}", iv).unwrap();
@@ -153,6 +165,10 @@ fn main() {
     writeln!(file, "TAG: {}", format_hex(&tag)).unwrap();
     writeln!(file, "PT: \t{}", format_hex(&pt)).unwrap();
     writeln!(file, "DEC_PT: {}", format_hex(&dec_pt)).unwrap();
+
+    if args.len() > 1 {
+        writeln!(perm_file, "V{}\t\t: ({}{}{},{}{})", args[1], format_hex(&dec_pt), format_hex(&key), format_hex(&nonce), format_hex(&ct), format_hex(&tag)).unwrap();
+    }
 
     println!("Successfully generated vectors.txt");
 }
