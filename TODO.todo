@@ -1,7 +1,14 @@
 Project Reqs:
     ☐ Compare System-Verilog ASCON implementation with standard.
         Report discrepencies as well as countermeasures to SCAs.
-    ☐ 
+    ☐ Write SW impelementation in rust:
+        - Find out how to decode.
+        - Find original pt.
+    ☐ Automate test generation:    
+        - Find standard implementation.
+        - Think of good architecture to test HW and SW.
+        - How to generate?
+        - Find score! (compare both to standard and get HW score and SW score)
 
 Links:
     SW: https://github.com/meichlseder/pyascon
