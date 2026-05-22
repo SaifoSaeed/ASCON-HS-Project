@@ -1,3 +1,4 @@
+*Make sure to clone ascon-verilog's repo and place it in HW directory.
 # ASCON-HS-Project
 Hardware Security Project: Hardware and Software Implementation of ASCON (NIST SP 800-232)
 
